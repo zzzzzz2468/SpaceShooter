@@ -15,8 +15,9 @@ public class TankController : MonoBehaviour
     public float BulletSpeed = 20;
     public float BulletLifeSpan = 3;
     public float FireRate = 3;
-    private float Timer = 0;
     public float BulletForce = 3;
+    public float ScreenPadding = 2;
+    private float Timer = 0;
 
     //References
     private Rigidbody2D rb2d;
@@ -32,6 +33,7 @@ public class TankController : MonoBehaviour
     }
 
     private void Update() {
+        //Moves the player if he is able to
         if (CanMove){
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
@@ -46,6 +48,14 @@ public class TankController : MonoBehaviour
         if (Input.GetButton("Jump") && Time.time > Timer) {
             ShootShot();
             Timer = Time.time + FireRate;
+        }
+        //Check if left the screen
+        Vector3 zeroPoint = GameManager.GM.camera.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 edgePoint = GameManager.GM.camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        if (transform.position.x < zeroPoint.x - ScreenPadding || transform.position.x > edgePoint.x + ScreenPadding ||
+            transform.position.y < zeroPoint.y - ScreenPadding || transform.position.y > edgePoint.y + ScreenPadding){
+            GameManager.GM.PlayerLosesLife();
         }
     }
 

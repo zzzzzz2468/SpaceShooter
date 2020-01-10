@@ -13,15 +13,8 @@ public class ShotController : MonoBehaviour
     }
 
     //Destroys the bullet if it doesn't hit anything in the required time
-    IEnumerator ShotDeath(float lifeTime)
-    {
+    IEnumerator ShotDeath(float lifeTime) {
         yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        //If collides with asteroid or enemy destroy or explode or something
-
     }
 }
